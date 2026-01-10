@@ -1,0 +1,81 @@
+{
+  "name": "principia",
+  "version": "0.1.0",
+  "description": "Multi-agent research orchestration system for CS/ML/AI - Inspired by Newton's Principia Mathematica",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "bin": {
+    "principia": "dist/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src/**/*.ts",
+    "prepublishOnly": "npm run build",
+    "postinstall": "node dist/cli/index.js postinstall || true"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.0",
+    "@ast-grep/napi": "^0.31.0",
+    "vscode-languageserver-protocol": "^3.17.5",
+    "zod": "^3.23.8",
+    "jsonc-parser": "^3.3.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "eslint": "^9.17.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "prettier": "^3.4.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edhenry/principia.git"
+  },
+  "homepage": "https://github.com/edhenry/principia#readme",
+  "bugs": {
+    "url": "https://github.com/edhenry/principia/issues"
+  },
+  "author": "Ed Henry",
+  "license": "MIT",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "agent",
+    "multi-agent",
+    "orchestration",
+    "research",
+    "machine-learning",
+    "artificial-intelligence",
+    "computer-science",
+    "principia",
+    "anthropic",
+    "llm",
+    "scientific-computing"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
