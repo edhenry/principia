@@ -10,7 +10,7 @@ _Named after Newton's Principia Mathematica - where scientific methods were syst
 [![Agents](https://img.shields.io/badge/Agents-11-ff0040)](https://github.com/edhenry/principia)
 [![Research](https://img.shields.io/badge/Focus-Research-00ffff)](https://github.com/edhenry/principia)
 
-[Install](#quick-install) • [Agents](#the-eleven-scientists) • [Skills](#research-skills) • [MCP Servers](#recommended-mcp-servers)
+[Install](#quick-install) • [Agents](#the-eleven-scientists) • [Skills](#research-skills) • [Framework](#research-framework) • [MCP Servers](#recommended-mcp-servers)
 
 </div>
 
@@ -117,6 +117,8 @@ Skills provide specialized research workflows:
 | Skill                | Description                                     |
 | -------------------- | ----------------------------------------------- |
 | `/lovelace`          | Activate research orchestration mode            |
+| `/protocol <domain>` | Activate research framework with domain context |
+| `/templates`         | Show available templates and domains            |
 | `/literature-review` | Systematic literature discovery with Archimedes |
 | `/hypothesis`        | Generate and evaluate hypotheses with Darwin    |
 | `/experiment`        | Design rigorous experiments with Galileo        |
@@ -128,6 +130,12 @@ Skills provide specialized research workflows:
 
 ```bash
 # In Claude Code:
+
+# Activate research framework for ML domain
+/protocol ml
+
+# Show available templates
+/templates
 
 # Start research orchestration
 /lovelace survey the literature on transformer efficiency
@@ -143,6 +151,138 @@ Skills provide specialized research workflows:
 
 # Write paper section
 /paper-writing write introduction for attention efficiency paper
+```
+
+---
+
+## Research Framework
+
+Principia includes a structured research framework that ensures reproducibility and statistical rigor. Use `/protocol <domain>` to activate it.
+
+### Available Domains
+
+| Domain      | Description                                           |
+| ----------- | ----------------------------------------------------- |
+| **general** | Standard scientific methodology                       |
+| **ml**      | Machine learning with training-specific terminology   |
+| **systems** | Systems research (inherits from general)              |
+| **theory**  | Theoretical CS (inherits from general)                |
+
+### Directory Structure
+
+When the research framework is active, agents create artifacts in this structure:
+
+```
+{project}/
+├── experiments/                      # All research work
+│   ├── README.md                     # Experiment index
+│   ├── milestone_{a,b,c,...}/        # Research milestones
+│   │   ├── README.md                 # Milestone overview & status
+│   │   └── E{M}.{N}_{name}/          # Individual experiments
+│   │       ├── protocol.md           # Design (BEFORE execution)
+│   │       ├── config.yaml           # Frozen config (NEVER modify after)
+│   │       ├── results/              # Outputs per seed
+│   │       │   ├── seed42/
+│   │       │   ├── seed123/
+│   │       │   └── seed456/
+│   │       ├── analysis/             # Statistical analysis (AFTER)
+│   │       │   ├── statistical_report.md
+│   │       │   └── plots/
+│   │       ├── SUMMARY.md            # Key findings (AFTER)
+│   │       ├── NOTES.md              # Human observations
+│   │       └── followups/            # Validation experiments
+│   │           └── E{M}.{N}F{F}_{name}/
+│   └── cross_milestone/              # Meta-analyses spanning milestones
+```
+
+### Naming Conventions
+
+| Type           | Format                | Examples                        |
+| -------------- | --------------------- | ------------------------------- |
+| **Experiment** | `E{M}.{N}_{name}`     | E1.1_baseline, E2.3_ablation    |
+| **Follow-up**  | `E{M}.{N}F{F}_{name}` | E1.1F1_validation, E2.3F2_robust|
+| **Milestone**  | `milestone_{letter}`  | milestone_a, milestone_b        |
+
+Where: **M** = Milestone number, **N** = Experiment number, **F** = Follow-up number
+
+### The 7-Phase Research Cycle
+
+```
+1. DESIGN    (Galileo)  → protocol.md
+2. REVIEW    (Popper)   → Methodology critique
+3. EXECUTE   (Turing)   → Training/running, results/
+4. ANALYZE   (Curie)    → analysis/statistical_report.md
+5. CRITIQUE  (Popper)   → Results review
+6. DOCUMENT  (Feynman)  → SUMMARY.md
+7. FOLLOW-UP (Galileo)  → followups/ if needed
+```
+
+### Statistical Requirements
+
+The framework enforces statistical rigor:
+
+| Requirement              | Value                           |
+| ------------------------ | ------------------------------- |
+| **Minimum seeds**        | 3 (default: 42, 123, 456)       |
+| **Required statistics**  | Mean ± Std, 95% CI              |
+| **Hypothesis tests**     | t-test or appropriate alternative|
+| **Effect size**          | Cohen's d (small: 0.2, medium: 0.5, large: 0.8) |
+| **Significance level**   | α = 0.05                        |
+
+### Critical Rules
+
+1. **FROZEN CONFIGS**: Once execution starts, `config.yaml` is IMMUTABLE
+   - Want changes? Create a NEW experiment or follow-up
+
+2. **MULTIPLE SEEDS**: Always ≥3 for statistical validity
+   - Use: 42, 123, 456 (default)
+
+3. **PRE-DEFINED CRITERIA**: Set pass/fail thresholds BEFORE execution
+   - Include H1 (expected) and H0 (null) hypotheses
+
+4. **EFFECT SIZES**: p-values alone are insufficient
+   - Always compute Cohen's d or equivalent
+
+5. **VALIDATION**: Surprising results require follow-up experiments
+
+### Template Types
+
+Each domain provides these templates (view with `/templates`):
+
+| Template              | File                    | Purpose                              |
+| --------------------- | ----------------------- | ------------------------------------ |
+| **protocol**          | protocol.md             | Experiment design (BEFORE execution) |
+| **config**            | config.yaml             | Frozen configuration (DURING)        |
+| **summary**           | SUMMARY.md              | Key findings (AFTER)                 |
+| **analysis**          | statistical_report.md   | Statistical analysis report          |
+| **notes**             | NOTES.md                | Human observations, session log      |
+| **milestone_readme**  | README.md               | Milestone overview and status        |
+| **experiments_readme**| README.md               | Top-level experiments index          |
+
+### Example: Running an ML Experiment
+
+```bash
+# 1. Activate ML research framework
+/protocol ml
+
+# 2. Design experiment with Galileo
+/experiment design baseline comparison for attention mechanism
+
+# 3. Galileo creates: experiments/milestone_a/E1.1_baseline/protocol.md
+
+# 4. Review methodology with Popper
+/critique review E1.1_baseline protocol for issues
+
+# 5. Implement with Turing (config.yaml gets frozen)
+Ask Turing to implement the training pipeline
+
+# 6. Run with multiple seeds (42, 123, 456)
+
+# 7. Analyze with Curie
+/analyze results from E1.1_baseline across all seeds
+
+# 8. Document with Feynman
+Ask Feynman to write SUMMARY.md with findings
 ```
 
 ---

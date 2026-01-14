@@ -1118,7 +1118,123 @@ I will check for available updates to Principia.
 3. **Update**: Download and install if available
 
 ### Version Info Location
-\`~/.claude/.principia-version.json\``
+\`~/.claude/.principia-version.json\``,
+
+  'templates.md': `---
+description: Show available research templates and domains
+---
+
+[RESEARCH TEMPLATES]
+
+$ARGUMENTS
+
+## Available Research Domains
+
+| Domain | Description |
+|--------|-------------|
+| **general** | General research domain with standard scientific methodology |
+| **ml** | Machine learning domain with ML-specific terminology and templates |
+| **systems** | Systems research domain (inherits from general) |
+| **theory** | Theoretical CS domain (inherits from general) |
+
+## Template Types
+
+Each domain provides these templates:
+
+| Template | File | Purpose |
+|----------|------|---------|
+| **protocol** | protocol.md | Experiment design (BEFORE execution) |
+| **config** | config.yaml | Frozen configuration (DURING - never modify) |
+| **summary** | SUMMARY.md | Key findings (AFTER analysis) |
+| **analysis** | statistical_report.md | Statistical analysis report |
+| **notes** | NOTES.md | Human observations and session log |
+| **milestone_readme** | README.md | Milestone overview and status |
+| **experiments_readme** | README.md | Top-level experiments index |
+
+## Usage
+
+### Activate Research Mode
+\`\`\`
+/protocol ml          # Activate ML domain
+/protocol general     # Activate general domain
+\`\`\`
+
+### Directory Structure
+
+When creating research artifacts:
+
+\`\`\`
+{project}/
+├── experiments/                      # All research work
+│   ├── README.md                     # Experiment index
+│   ├── milestone_{a,b,c,...}/        # Research milestones
+│   │   ├── README.md                 # Milestone overview
+│   │   └── E{M}.{N}_{name}/          # Experiments
+│   │       ├── protocol.md           # Design (BEFORE)
+│   │       ├── config.yaml           # Frozen config
+│   │       ├── results/              # Outputs per seed
+│   │       ├── analysis/             # Statistical analysis
+│   │       ├── SUMMARY.md            # Key findings
+│   │       └── followups/            # Validation experiments
+\`\`\`
+
+### Naming Conventions
+
+| Type | Format | Examples |
+|------|--------|----------|
+| Experiment | \`E{M}.{N}_{name}\` | E1.1_baseline, E2.3_ablation |
+| Follow-up | \`E{M}.{N}F{F}_{name}\` | E1.1F1_validation |
+| Milestone | \`milestone_{letter}\` | milestone_a, milestone_b |
+
+### Statistical Requirements
+
+- **Minimum runs**: 3 seeds (42, 123, 456)
+- **Required statistics**: Mean ± Std, 95% CI, effect size
+- **Required tests**: t-test or appropriate alternative
+- **Effect size**: Cohen's d (small: 0.2, medium: 0.5, large: 0.8)`,
+
+  'protocol.md': `---
+description: Activate research framework with domain selection
+---
+
+[RESEARCH FRAMEWORK ACTIVATION]
+
+$ARGUMENTS
+
+## Quick Start
+
+Specify a domain to activate research mode:
+
+\`\`\`
+/protocol ml          # Machine learning research
+/protocol general     # General scientific methodology
+\`\`\`
+
+## What This Does
+
+When you activate a research protocol:
+
+1. **Injects research framework context** into your session
+2. **Sets domain-specific terminology** (seeds, training, checkpoints for ML)
+3. **Defines statistical requirements** for the domain
+4. **Establishes directory conventions** for all artifacts
+
+## Default Behavior
+
+Without a domain argument, activates **general** domain with:
+- Standard scientific methodology
+- 3 required seeds (42, 123, 456)
+- Standard statistical tests (t-test, Cohen's d)
+- General naming conventions
+
+## Available Domains
+
+- **general**: Standard scientific methodology
+- **ml**: Machine learning with training-specific terminology
+- **systems**: Systems research (currently inherits from general)
+- **theory**: Theoretical CS (currently inherits from general)
+
+Use \`/templates\` to see all available templates and conventions.`
 };
 
 /**
@@ -1264,6 +1380,42 @@ Output \`<promise>DONE</promise>\` ONLY when:
 - All outputs verified
 
 The loop does not stop until research is complete.
+`,
+
+  'protocol/SKILL.md': `---
+name: protocol
+description: Activate research framework with domain-specific protocols
+---
+
+# Research Protocol Skill
+
+[RESEARCH FRAMEWORK ACTIVATED]
+
+Activates the structured research framework with domain-specific templates.
+
+## Available Domains
+
+| Domain | Description |
+|--------|-------------|
+| **general** | Standard scientific methodology |
+| **ml** | Machine learning research |
+| **systems** | Systems research |
+| **theory** | Theoretical CS |
+
+## Usage
+
+\`\`\`
+/protocol ml          # Activate ML domain
+/protocol general     # Activate general domain
+\`\`\`
+
+## What Gets Injected
+
+- Directory structure conventions
+- File naming standards (E{M}.{N}_{name})
+- Experiment lifecycle phases
+- Statistical requirements
+- The 7-phase research cycle
 `
 };
 
@@ -1303,6 +1455,61 @@ Use the Task tool to delegate to specialized research agents:
 | \`/experiment <design>\` | Experiment design with Galileo |
 | \`/plan <research>\` | Planning with Newton |
 | \`/review <work>\` | Critical review with Popper |
+| \`/protocol <domain>\` | Activate research framework |
+| \`/templates\` | Show available templates and domains |
+
+## Research Framework
+
+When conducting experiments, use \`/protocol <domain>\` to activate the research framework.
+
+### Directory Structure
+
+\`\`\`
+{project}/
+├── experiments/                      # All research work
+│   ├── README.md                     # Experiment index
+│   ├── milestone_{a,b,c,...}/        # Research milestones
+│   │   ├── README.md                 # Milestone overview
+│   │   └── E{M}.{N}_{name}/          # Experiments
+│   │       ├── protocol.md           # Design (BEFORE execution)
+│   │       ├── config.yaml           # Frozen config (NEVER modify after)
+│   │       ├── results/              # Outputs per seed
+│   │       ├── analysis/             # Statistical analysis
+│   │       ├── SUMMARY.md            # Key findings
+│   │       └── followups/            # Validation experiments
+\`\`\`
+
+### Naming Conventions
+
+| Type | Format | Examples |
+|------|--------|----------|
+| Experiment | \`E{M}.{N}_{name}\` | E1.1_baseline, E2.3_ablation |
+| Follow-up | \`E{M}.{N}F{F}_{name}\` | E1.1F1_validation |
+| Milestone | \`milestone_{letter}\` | milestone_a, milestone_b |
+
+### The 7-Phase Research Cycle
+
+1. **DESIGN** (Galileo) → protocol.md
+2. **REVIEW** (Popper) → Methodology critique
+3. **EXECUTE** (Turing) → Training/running, results/
+4. **ANALYZE** (Curie) → analysis/statistical_report.md
+5. **CRITIQUE** (Popper) → Results review
+6. **DOCUMENT** (Feynman) → SUMMARY.md
+7. **FOLLOW-UP** (Galileo) → followups/ if needed
+
+### Statistical Requirements
+
+- **Minimum runs**: 3 seeds (42, 123, 456)
+- **Required statistics**: Mean ± Std, 95% CI, effect size
+- **Effect size**: Cohen's d (small: 0.2, medium: 0.5, large: 0.8)
+
+### Critical Rules
+
+1. **FROZEN CONFIGS**: Once execution starts, config.yaml is IMMUTABLE
+2. **MULTIPLE SEEDS**: Always ≥3 for statistical validity
+3. **PRE-DEFINED CRITERIA**: Set pass/fail thresholds BEFORE running
+4. **EFFECT SIZES**: p-values alone are insufficient
+5. **VALIDATION**: Surprising results require follow-up experiments
 
 ## Research Workflow
 

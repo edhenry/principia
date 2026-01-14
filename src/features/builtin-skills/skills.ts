@@ -6,6 +6,13 @@
  */
 
 import type { BuiltinSkill } from './types.js';
+import {
+  generateSharedContext,
+  generateAgentContext,
+  listDomains,
+  getDomainInfo,
+  type ResearchDomain,
+} from '../research-templates/index.js';
 
 /**
  * Lovelace skill - research orchestration mode
@@ -378,6 +385,83 @@ Before outputting \`<promise>DONE</promise>\`, verify:
 };
 
 /**
+ * Protocol skill - activates research framework with domain selection
+ *
+ * This skill dynamically injects the research framework context into the agent,
+ * making them aware of:
+ * - Directory structure conventions
+ * - File naming conventions (E{M}.{N}_{name})
+ * - Experiment lifecycle phases
+ * - Statistical requirements
+ * - The 7-phase research cycle
+ */
+const protocolSkill: BuiltinSkill = {
+  name: 'protocol',
+  description: 'Activate research framework with domain-specific protocols',
+  argumentHint: '<domain>',
+  template: `# Research Protocol Skill
+
+[RESEARCH FRAMEWORK ACTIVATED]
+
+## Domain Selection
+
+Available research domains:
+${listDomains().map(d => {
+  const info = getDomainInfo(d);
+  return `- **${d}**: ${info.description}`;
+}).join('\n')}
+
+To activate a specific domain, use: \`/protocol <domain>\`
+
+Example: \`/protocol ml\` for machine learning research
+
+## Default: General Domain
+
+${generateSharedContext('general')}
+
+## Your Task
+
+When research mode is active:
+1. **Create artifacts** in the correct directory structure
+2. **Follow naming conventions** (E{M}.{N}_{name})
+3. **Respect the lifecycle** (protocol.md BEFORE, config.yaml frozen DURING, etc.)
+4. **Ensure statistical rigor** (multiple seeds, effect sizes, proper tests)
+5. **Follow the 7-phase cycle** when conducting experiments
+`,
+};
+
+/**
+ * Generate a domain-specific protocol skill template
+ */
+export function generateProtocolTemplate(domain: ResearchDomain): string {
+  return `# Research Protocol Skill - ${domain.toUpperCase()} Domain
+
+[RESEARCH FRAMEWORK ACTIVATED - ${domain.toUpperCase()} DOMAIN]
+
+${generateSharedContext(domain)}
+
+## Your Task
+
+When research mode is active:
+1. **Create artifacts** in the correct directory structure
+2. **Follow naming conventions** (E{M}.{N}_{name})
+3. **Respect the lifecycle** (protocol.md BEFORE, config.yaml frozen DURING, etc.)
+4. **Ensure statistical rigor** (multiple seeds, effect sizes, proper tests)
+5. **Follow the 7-phase cycle** when conducting experiments
+`;
+}
+
+/**
+ * Generate agent-specific research context
+ */
+export function generateAgentResearchTemplate(
+  agentName: string,
+  domain: ResearchDomain = 'general'
+): string {
+  return generateAgentContext(agentName, domain);
+}
+
+/**
  * Get all builtin skills
  */
 export function createBuiltinSkills(): BuiltinSkill[] {
@@ -389,6 +473,7 @@ export function createBuiltinSkills(): BuiltinSkill[] {
     critiqueSkill,
     paperWritingSkill,
     researchLoopSkill,
+    protocolSkill,
   ];
 }
 
